@@ -1,122 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+@extends('partials.header')
 
-    <title>Document</title>
-</head>
-<body>
-    <div class="container">
-        <button class="btn-success">Bootstrap funcionando</button>
+@section('title')
+    Objetos
+@endsection
 
+@foreach ($objetos as $objeto)
+    @php
+        $teste =  max(mb_strlen(trim(str_replace(' ', '', $objeto->nome))), 1);
+    @endphp
+@endforeach
+
+<form method="GET">
+  <div class="form-group">
+    <label for="formResposta">Quantidade de letras</label>
+    <select class="form-control" id="formResposta" name="formResposta">
+        <?php
+            for ($i = 1; $i <= $teste; $i++ ) { ?>
+                <option value="{{$i}}">{{$i}}</option>
+        <?php } ?>
+
+    </select>
+  </div>
+  <br> <button type="submit" onclick="qtdPalavras()" class="btn btn-primary">Buscar</button>
+</form>
+
+@section('content')
+<div class="row">
+        @php
+            $result = '';
+            if($_GET){
+                $result = $_GET['formResposta'];
+            }
+        @endphp
         @foreach ($objetos as $objeto)
-        @if (mb_strlen($objeto) == 2)
-        <button class="btn-success">2 Letras</button>
-            <p>
-            {{$objeto}}
-            </p>
+        @if ($result)
+            @if (mb_strlen(trim(str_replace(' ', '', $objeto->nome))) ==  $result)
+                <p class="flex btn btn-success m-2">{{$objeto->nome}}</p>
+            @endif
         @endif
-
-        @if (mb_strlen($objeto) == 3)
-        <button class="btn-success">3 Letras</button>
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 4)
-        <button class="btn-success">4 Letras</button>
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 5)
-        <button class="btn-success">5 Letras</button>
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 6)
-        <button class="btn-success">6 Letras</button>
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 7)
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 8)
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 9)
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 10)
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 11)
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 12)
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 13)
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 14)
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 15)
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-        @if (mb_strlen($objeto) == 16)
-            <p>
-            {{$objeto}}
-            </p>
-        @endif
-
-
-
         @endforeach
 
-    </div>
-    <script>
-        <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    </script>
-</body>
-</html>
+        </div>
+@endsection
+
+<script>
+    function qtdPalavras() {
+        qtdPlvr = document.querySelector('#formResposta').value
+        console.log(qtdPlvr)
+    }
+</script>
+
+@extends('partials.footer')

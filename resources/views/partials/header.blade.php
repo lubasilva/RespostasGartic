@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-center py-3 col-sm-6">
+        <div class="container">
             @yield('content')
-        </div>
+
     </div>
